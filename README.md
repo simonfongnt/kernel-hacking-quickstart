@@ -5,7 +5,7 @@ setup on Ubuntu machine
 ## Prerequisites:
 To install all required packages on Ubuntu/Debian, run this command:
 ```
-sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source
+sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source python3-ply python3-git
 ```
 
 <details close>
