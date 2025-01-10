@@ -138,15 +138,16 @@ Issues?
 
 
 - [`make[3]: *** No rule to make target 'debian/canonical-revoked-certs.pem', needed by 'certs/x509_revocation_list'. Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
+  Run
   ```
-  sudo apt install linux-buildinfo-$(uname -r)
-  sudo cp /usr/src/linux-source-5.15.0/debian/canonical-revoked-certs.pem /usr/local/src/debian/
-
   sudo mkdir -p /usr/local/src/debian
   sudo apt install linux-source
-  sudo cp -v /usr/src/linux-source-*/debian/canonical-*.pem /usr/local/src/debian/
+  sudo cp -v /usr/src/linux-source-*/debian/canonical-*.pem /usr/local/src/debian/  
   ```
-
+  Update `.config` with this line:
+  ```
+  CONFIG_SYSTEM_REVOCATION_KEYS="/usr/local/src/debian/canonical-revoked-certs.pem"
+  ```
   
 ## Install Kernel module (TBD)
 Run
