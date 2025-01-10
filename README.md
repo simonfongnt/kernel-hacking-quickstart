@@ -1,5 +1,5 @@
 # kernel-hacking-quickstart
-Kernel Hacking Quickstart
+[Kernel Hacking](https://kernelnewbies.org/) Quickstart
 setup on Ubuntu machine
 
 ## Prerequisites:
