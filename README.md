@@ -122,6 +122,7 @@ TBD...
 ```
 
 ## Build Kernel
+
 Run
 `make` or `sudo make`
 Or, bet your luck with multi-core commands
@@ -132,12 +133,12 @@ make -j8   # 4 core to be used
 Issues?
 - `install: setting permissions for ‘.../staging/tools/bpf/resolve_btfids/libbpf//include/bpf/bpf.h’: Operation not permitted`
   ```
-  make clean
   sudo make
   ```
 
 
 - [`make[3]: *** No rule to make target 'debian/canonical-revoked-certs.pem', needed by 'certs/x509_revocation_list'. Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
+
   Run
   ```
   sudo mkdir -p /usr/local/src/debian
@@ -147,6 +148,10 @@ Issues?
   Update `.config` with this line:
   ```
   CONFIG_SYSTEM_REVOCATION_KEYS="/usr/local/src/debian/canonical-revoked-certs.pem"
+  ```
+  Run
+  ```
+  sudo make
   ```
   
 ## Install Kernel module (TBD)
