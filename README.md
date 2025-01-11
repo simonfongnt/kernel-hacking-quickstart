@@ -141,9 +141,9 @@ Issues?
 
   Run
   ```
-  sudo mkdir -p /usr/local/src/debian
-  sudo apt install linux-source
-  sudo cp -v /usr/src/linux-source-*/debian/canonical-*.pem /usr/local/src/debian/  
+  sudo apt install linux-buildinfo-$(uname -r)
+  sudo cp -v /usr/lib/linux/$(uname -r)/canonical-certs.pem /usr/local/src/debian/
+  
   ```
   Update `.config` with this line:
   ```
