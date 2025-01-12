@@ -5,7 +5,7 @@ setup on Ubuntu machine
 ## Prerequisites:
 To install all required packages on Ubuntu/Debian, run this command:
 ```
-sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source python3-ply python3-git
+sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source python3-ply python3-git codespell 
 ```
 
 <details close>
@@ -177,7 +177,7 @@ sudo reboot
 ## Undo (Be mindful to what you are going to do below)
 Clean up grub (i.e. anything under boot and named with rc)
 ```
-locate "/boot*-rc-*" | sudo xargs -ixxx rm -rf 'xxx'
+locate /boot*rc* | sudo xargs -ixxx rm -rf 'xxx'
 sudo update-grub
 sudo reboot
 ```
