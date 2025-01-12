@@ -174,7 +174,7 @@ Reboot
 sudo reboot
 ```
 
-## Clean Up (Be mindful to what you are going to do below)
+## Undo (Be mindful to what you are going to do below)
 Clean up grub (i.e. anything under boot and named with rc)
 ```
 locate "/boot*-rc-*" | sudo xargs -ixxx rm -rf 'xxx'
