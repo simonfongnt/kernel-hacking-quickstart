@@ -115,6 +115,7 @@ Change into staging directory:
 As per a quickstart
 ```
 cp /boot/config-`uname -r`* .config
+make localmodconfig
 ```
 Upon changes
 ```
@@ -170,5 +171,13 @@ sudo make install
 ```
 Reboot
 ```
+sudo reboot
+```
+
+## Clean Up (Be mindful to what you are going to do below)
+Clean up grub (i.e. anything under boot and named with rc)
+```
+locate "/boot*-rc-*" | sudo xargs -ixxx rm -rf 'xxx'
+sudo update-grub
 sudo reboot
 ```
