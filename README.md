@@ -129,7 +129,7 @@ Run
 Or, bet your luck with multi-core commands
 ```
 lscpu     # check how many core the pc has
-make -j8   # 4 core to be used
+make -j`nproc` 
 ```
 Issues?
 - `install: setting permissions for ‘.../staging/tools/bpf/resolve_btfids/libbpf//include/bpf/bpf.h’: Operation not permitted`
