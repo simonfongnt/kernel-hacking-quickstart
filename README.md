@@ -115,7 +115,7 @@ Change into staging directory:
 As per a quickstart
 ```
 cp /boot/config-`uname -r`* .config
-make localmodconfig
+make oldconfig
 ```
 Upon changes
 ```
