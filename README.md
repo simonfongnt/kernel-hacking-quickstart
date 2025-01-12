@@ -136,17 +136,19 @@ Issues?
   sudo make
   ```
 
-
+- [`make[3]: *** No rule to make target 'debian/canonical-certs.pem', needed by 'certs/x509_certificate_list'.  Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
+- OR
 - [`make[3]: *** No rule to make target 'debian/canonical-revoked-certs.pem', needed by 'certs/x509_revocation_list'. Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
 
   Run
   ```
   sudo apt install linux-buildinfo-$(uname -r)
-  sudo cp -v /usr/lib/linux/$(uname -r)/canonical-certs.pem /usr/local/src/debian/
+  sudo cp -v /usr/lib/linux/$(uname -r)/*.pem /usr/local/src/debian/
   
   ```
-  Update `.config` with this line:
+  Update `.config` with these lines:
   ```
+  CONFIG_SYSTEM_TRUSTED_KEYS="/usr/local/src/debian/canonical-certs.pem"
   CONFIG_SYSTEM_REVOCATION_KEYS="/usr/local/src/debian/canonical-revoked-certs.pem"
   ```
   Run
