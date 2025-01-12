@@ -153,7 +153,8 @@ Issues?
   ```
   Run
   ```
-  sudo make
+  make clean
+  make
   ```
   
 ## Install Kernel module (TBD)
