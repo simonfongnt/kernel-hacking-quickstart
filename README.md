@@ -162,28 +162,44 @@ Then use the revision control system called git to clone Greg Kroah-Hartman's st
 Change into staging directory:
 `cd staging`
 
-## Config Kernel
+## Config kernel
+First of all, run
+```
+cp /boot/config-`uname -r`* .config  # duplicating your current config
+```
 As per a quickstart
 ```
-cp /boot/config-`uname -r`* .config
-make oldconfig
+make oldconfig    # probably olddefconfig is better
 ```
-Upon changes
+<details close>
+<summary> Other options? </summary>
+  
 ```
-TBD...
+make config        # every bloody options for new kernel being asked
+make defconfig     # use default for every bloody options
+make menuconfig    # GUI
+make oldconfig     # only new options being asked
+make olddefconfig  # using existing options & default to new options
+make nconfig       # CLI?
+make xconfig       # CLI?
 ```
+</details>
 
-## Build Kernel
+
+## Build kernel & modules
 
 Run
 `make` or `sudo make`
-Or, bet your luck with multi-core commands
+Or, bet your luck with multi-core commands:
 ```
 lscpu     # check how many core the pc has
 make -j`nproc`           # build the kernel
 make -j`nproc` modules   # build the modules
 ```
-### Issues?
+
+<details close>
+<summary> Issues? </summary>
+
 - `install: setting permissions for ‘.../staging/tools/bpf/resolve_btfids/libbpf//include/bpf/bpf.h’: Operation not permitted`
   Run
   ```
@@ -220,14 +236,9 @@ Run
 make clean
 make
 ```
-  
-## Install Kernel module (TBD)
-Run
-```
-sudo make modules_install install
-```
+</details>
 
-## Install Kernel
+## Install kernel & modules
 Run
 ```
 sudo make modules_install # create dir of kernel modules for grub
@@ -237,7 +248,9 @@ Reboot
 ```
 sudo reboot
 ```
-### Issues?
+<details close>
+<summary> Issues? </summary>
+  
 - `W: missing /lib/modules/x.xx.x-rc?+
 W: Ensure all necessary drivers are built into the linux image!
 depmod: ERROR: could not open directory /lib/modules/x.xx.x-rc?+: No such file or directory`
@@ -247,6 +260,7 @@ make -j`nproc` modules     # build the modules
 sudo make modules_install  # create dir of kernel modules for grub
 sudo make install          # install kernel + modules + update grub
 ```
+</details>
 
 ## Undo (Be mindful to what is going on below)
 Clean up grub (i.e. anything under boot and named with rc)
