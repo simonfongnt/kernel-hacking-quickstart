@@ -262,6 +262,12 @@ sudo make install          # install kernel + modules + update grub
 ```
 </details>
 
+## Make ctags?
+ctags parses source code and produces a sort of index mapping the names of significant entities
+```
+make tags
+```
+
 ## Undo (Be mindful to what is going on below)
 Clean up grub (i.e. anything under boot and named with rc)
 ```
