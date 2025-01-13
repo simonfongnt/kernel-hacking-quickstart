@@ -1,6 +1,6 @@
 # kernel-hacking-quickstart
 [Kernel Hacking](https://kernelnewbies.org/) Quickstart
-setup on Ubuntu machine
+setup on Ubuntu machine. The first step is the tedious, better make it right to save time.
 
 ## Prerequisites:
 To install all required packages on Ubuntu/Debian, run this command:
@@ -247,6 +247,10 @@ sudo make install         # install kernel + modules + update grub
 Reboot
 ```
 sudo reboot
+```
+Verify
+```
+uname -r
 ```
 <details close>
 <summary> Issues? </summary>
