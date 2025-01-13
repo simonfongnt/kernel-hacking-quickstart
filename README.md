@@ -12,6 +12,18 @@ sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev
 <summary> Tool Setups (Optional) </summary>
 
 To configure the tools beforehand
+
+<details close>    
+  <summary>screen</summary>
+  On the machine for kernel hacking, run
+  ```
+  screen
+  ```  
+  other machiens connected with ssh, run
+  ```
+  screen -x
+  ```  
+</details>
 <details close>    
   <summary>vim</summary>
   
@@ -132,7 +144,7 @@ lscpu     # check how many core the pc has
 make -j`nproc`           # build the kernel
 make -j`nproc` modules   # build the modules
 ```
-Issues?
+### Issues?
 - `install: setting permissions for ‘.../staging/tools/bpf/resolve_btfids/libbpf//include/bpf/bpf.h’: Operation not permitted`
   Run
   ```
@@ -143,28 +155,32 @@ Issues?
 - [`make[3]: *** No rule to make target 'debian/canonical-certs.pem', needed by 'certs/x509_certificate_list'.  Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce) OR
 - [`make[3]: *** No rule to make target 'debian/canonical-revoked-certs.pem', needed by 'certs/x509_revocation_list'. Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
   
-  2 ways to by pass it:  
-  1. Run
-  ```
-  scripts/config --disable SYSTEM_TRUSTED_KEYS
-  scripts/config --disable SYSTEM_REVOCATION_KEYS
-  ```
-  2. Run
-  ```
-  sudo apt install linux-buildinfo-$(uname -r)
-  sudo cp -v /usr/lib/linux/$(uname -r)/*.pem /usr/local/src/debian/
-  
-  ```
-  Update `.config` with these lines:
-  ```
-  CONFIG_SYSTEM_TRUSTED_KEYS="/usr/local/src/debian/canonical-certs.pem"
-  CONFIG_SYSTEM_REVOCATION_KEYS="/usr/local/src/debian/canonical-revoked-certs.pem"
-  ```
-  Run
-  ```
-  make clean
-  make
-  ```
+2 ways to bypass it:  
+1. Disable the keys
+
+Run
+```
+scripts/config --disable SYSTEM_TRUSTED_KEYS
+scripts/config --disable SYSTEM_REVOCATION_KEYS
+```
+2. or copy the keys from linux-buildinfo
+
+Run
+```
+sudo apt install linux-buildinfo-$(uname -r)
+sudo cp -v /usr/lib/linux/$(uname -r)/*.pem /usr/local/src/debian/
+
+```
+Update `.config` with these lines:
+```
+CONFIG_SYSTEM_TRUSTED_KEYS="/usr/local/src/debian/canonical-certs.pem"
+CONFIG_SYSTEM_REVOCATION_KEYS="/usr/local/src/debian/canonical-revoked-certs.pem"
+```
+Run
+```
+make clean
+make
+```
   
 ## Install Kernel module (TBD)
 Run
@@ -182,7 +198,7 @@ Reboot
 ```
 sudo reboot
 ```
-Issues?
+### Issues?
 - `W: missing /lib/modules/x.xx.x-rc?+
 W: Ensure all necessary drivers are built into the linux image!
 depmod: ERROR: could not open directory /lib/modules/x.xx.x-rc?+: No such file or directory`
