@@ -129,19 +129,27 @@ Run
 Or, bet your luck with multi-core commands
 ```
 lscpu     # check how many core the pc has
-make -j`nproc` 
+make -j`nproc`           # build the kernel
+make -j`nproc` modules   # build the modules
 ```
 Issues?
 - `install: setting permissions for ‘.../staging/tools/bpf/resolve_btfids/libbpf//include/bpf/bpf.h’: Operation not permitted`
-  ```
-  sudo make
-  ```
-
-- [`make[3]: *** No rule to make target 'debian/canonical-certs.pem', needed by 'certs/x509_certificate_list'.  Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
-- OR
-- [`make[3]: *** No rule to make target 'debian/canonical-revoked-certs.pem', needed by 'certs/x509_revocation_list'. Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
-
   Run
+  ```
+  sudo make clean
+  ```
+  then make without sudo
+
+- [`make[3]: *** No rule to make target 'debian/canonical-certs.pem', needed by 'certs/x509_certificate_list'.  Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce) OR
+- [`make[3]: *** No rule to make target 'debian/canonical-revoked-certs.pem', needed by 'certs/x509_revocation_list'. Stop.`](https://stackoverflow.com/questions/67670169/compiling-kernel-gives-error-no-rule-to-make-target-debian-certs-debian-uefi-ce)
+  
+  2 ways to by pass it:  
+  1. Run
+  ```
+  scripts/config --disable SYSTEM_TRUSTED_KEYS
+  scripts/config --disable SYSTEM_REVOCATION_KEYS
+  ```
+  2. Run
   ```
   sudo apt install linux-buildinfo-$(uname -r)
   sudo cp -v /usr/lib/linux/$(uname -r)/*.pem /usr/local/src/debian/
@@ -167,16 +175,30 @@ sudo make modules_install install
 ## Install Kernel
 Run
 ```
-sudo make install
+sudo make modules_install # create dir of kernel modules for grub
+sudo make install         # install kernel + modules + update grub
 ```
 Reboot
 ```
 sudo reboot
 ```
+Issues?
+- `W: missing /lib/modules/x.xx.x-rc?+
+W: Ensure all necessary drivers are built into the linux image!
+depmod: ERROR: could not open directory /lib/modules/x.xx.x-rc?+: No such file or directory`
+Modules was not built, run:
+```
+make -j`nproc` modules     # build the modules
+sudo make modules_install  # create dir of kernel modules for grub
+sudo make install          # install kernel + modules + update grub
+```
+
+
 
 ## Undo (Be mindful to what you are going to do below)
 Clean up grub (i.e. anything under boot and named with rc)
 ```
+locate /lib/modules/*rc* | sudo xargs -ixxx rm -rf 'xxx'
 locate /boot*rc* | sudo xargs -ixxx rm -rf 'xxx'
 sudo update-grub
 sudo reboot
