@@ -5,7 +5,7 @@ setup on Ubuntu machine
 ## Prerequisites:
 To install all required packages on Ubuntu/Debian, run this command:
 ```
-sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source python3-ply python3-git codespell 
+sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source python3-ply python3-git codespell openssh-server nfs-kernel-server
 ```
 
 <details close>
@@ -14,45 +14,83 @@ sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev
 To configure the tools beforehand
 
 <details close>    
-  <summary>screen (good to have)</summary>
-  
-  On the machine for kernel hacking, run
-  ```
-  screen
-  ```  
-  Other machiens connected with ssh, run
-  ```
-  screen -x
-  ```  
+<summary>ssh server</summary>  
+
+```
+sudo systemctl enable sshd.service
+sudo systemctl start sshd.service
+```  
 </details>
 <details close>    
-  <summary>vim</summary>
-  
-  Create a config file for vim  
-  ```
-  vim ~/.vimrc
-  ```  
-  Add the following lines:  
-  ```
-  filetype plugin indent on
-  syntax on
-  set title
-  set tabstop=8
-  set softtabstop=8
-  set shiftwidth=8
-  set noexpandtab
-  ```  
-  Make it as default editor  
-  ```
-  sudo update-alternatives --config editor
-  ```  
-  Then select `vim.basic` as default editor  
+<summary>nfs-kernel-server</summary>  
+
+On the machine for kernel hacking:
+- Add this line to `/etc/exports`
+```
+/path/to/kernel/folder       192.168.1.0/24(rw,no_subtree_check,sync,root_squash)
+```
+- then run
+```
+sudo exportfs -a                          # export directories to a local network by
+sudo systemctl restart nfs-kernel-server  # restart server
+```
+
+Other remote machine:
+- Create the dir for mount (e.g. `/path/to/mount/folder`)
+- Change permission to User
+```
+sudo chown USER:USER /path/to/mount/folder
+```
+- Add this line to `/etc/fstab`
+```
+ip:/path/to/kernel/folder   /path/to/mount/folder  nfs auto,rw,suid,dev,exec,noauto,nouser,sync,nolock 0 0
+```
+- then run:
+```
+sudo mount /path/to/mount/folder
+```
+
+</details>
+<details close>    
+<summary>screen (good to have)</summary>
+
+On the machine for kernel hacking, run
+```
+screen
+```  
+Other machiens connected with ssh, run
+```
+screen -x
+```  
+</details>
+<details close>    
+<summary>vim</summary>
+
+Create a config file for vim  
+```
+vim ~/.vimrc
+```  
+Add the following lines:  
+```
+filetype plugin indent on
+syntax on
+set title
+set tabstop=8
+set softtabstop=8
+set shiftwidth=8
+set noexpandtab
+```  
+Make it as default editor  
+```
+sudo update-alternatives --config editor
+```  
+Then select `vim.basic` as default editor  
 </details>
 <details close>
-  <summary>Email (Yahoo)</summary>
-    
-  Go click on your account icon (top right, above "Settings" and to the left of "Home"). Click on "Account info" and then go to "Account security". (You may have to sign in again for this step.) Scroll down to the setting "Allow apps that use less secure sign-in" and turn it on. If you have two-step verification or account key enabled, you will also need to use App Password. 
+<summary>Email (Yahoo)</summary>
   
+Go click on your account icon (top right, above "Settings" and to the left of "Home"). Click on "Account info" and then go to "Account security". (You may have to sign in again for this step.) Scroll down to the setting "Allow apps that use less secure sign-in" and turn it on. If you have two-step verification or account key enabled, you will also need to use App Password. 
+
 Amend the config file for mutt
 ```
 vim ~/.muttrc
@@ -90,7 +128,7 @@ set mail_check = 90
 </details>
 <details>
 <summary> Boot Menu (good to have) </summary>
-  
+
 Run
 ```
 sudo vim /etc/default/grub
@@ -210,13 +248,11 @@ sudo make modules_install  # create dir of kernel modules for grub
 sudo make install          # install kernel + modules + update grub
 ```
 
-
-
-## Undo (Be mindful to what is going to do below)
+## Undo (Be mindful to what is going on below)
 Clean up grub (i.e. anything under boot and named with rc)
 ```
-ls /lib/modules/*rc* | sudo xargs -ixxx rm -rf 'xxx'
-ls /boot/*rc* | sudo xargs -ixxx rm -rf 'xxx'
-sudo update-grub
-sudo reboot
+ls /lib/modules/*rc* | sudo xargs -ixxx rm -rf 'xxx'  # remove kernel module
+ls /boot/*rc* | sudo xargs -ixxx rm -rf 'xxx'         # remove kernel
+sudo update-grub                                      # grub without rc
+sudo reboot                                           # reboot to default
 ```
