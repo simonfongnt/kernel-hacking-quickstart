@@ -14,12 +14,13 @@ sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev
 To configure the tools beforehand
 
 <details close>    
-  <summary>screen</summary>
+  <summary>screen (good to have)</summary>
+  
   On the machine for kernel hacking, run
   ```
   screen
   ```  
-  other machiens connected with ssh, run
+  Other machiens connected with ssh, run
   ```
   screen -x
   ```  
