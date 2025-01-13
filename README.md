@@ -195,11 +195,11 @@ sudo make install          # install kernel + modules + update grub
 
 
 
-## Undo (Be mindful to what you are going to do below)
+## Undo (Be mindful to what is going to do below)
 Clean up grub (i.e. anything under boot and named with rc)
 ```
-locate /lib/modules/*rc* | sudo xargs -ixxx rm -rf 'xxx'
-locate /boot*rc* | sudo xargs -ixxx rm -rf 'xxx'
+ls /lib/modules/*rc* | sudo xargs -ixxx rm -rf 'xxx'
+ls /boot/*rc* | sudo xargs -ixxx rm -rf 'xxx'
 sudo update-grub
 sudo reboot
 ```
