@@ -5,7 +5,7 @@ setup on Ubuntu machine. The first step is the tedious, better make it right to 
 ## Prerequisites:
 To install all required packages on Ubuntu/Debian, run this command:
 ```
-sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source python3-ply python3-git codespell openssh-server nfs-kernel-server
+sudo apt-get install vim libncurses5-dev gcc make git exuberant-ctags libssl-dev bison flex libelf-dev bc dwarves zstd mutt git-email gitk linux-source python3-ply python3-git codespell openssh-server nfs-kernel-server linux-buildinfo-$(uname -r)
 ```
 
 <details close>
@@ -163,6 +163,13 @@ Then use the revision control system called git to clone Greg Kroah-Hartman's st
 Change into staging directory:
 `cd staging`
 
+Prerequisites to avoid error:
+```
+mkdir debian
+sudo cp /usr/lib/linux/$(uname -r)/canonical-certs.pem debian/canonical-certs.pem
+sudo cp /usr/lib/linux/$(uname -r)/canonical-revoked-certs.pem debian/canonical-revoked-certs.pem
+```
+
 ## Config kernel
 First of all, run
 ```
@@ -224,13 +231,9 @@ scripts/config --disable SYSTEM_REVOCATION_KEYS
 Run
 ```
 sudo apt install linux-buildinfo-$(uname -r)
-sudo cp -v /usr/lib/linux/$(uname -r)/*.pem /usr/local/src/debian/
-
-```
-Update `.config` with these lines:
-```
-CONFIG_SYSTEM_TRUSTED_KEYS="/usr/local/src/debian/canonical-certs.pem"
-CONFIG_SYSTEM_REVOCATION_KEYS="/usr/local/src/debian/canonical-revoked-certs.pem"
+mkdir debian
+sudo cp /usr/lib/linux/$(uname -r)/canonical-certs.pem debian/canonical-certs.pem
+sudo cp /usr/lib/linux/$(uname -r)/canonical-revoked-certs.pem debian/canonical-revoked-certs.pem
 ```
 Run
 ```
