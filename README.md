@@ -54,9 +54,7 @@ sudo mount /path/to/mount/folder
 <details close>    
 <summary>screen (good to have)</summary>
 
-Create a setting file:
-`vim ~/.screenrc`
-then add:
+Create or open `~/.screenrc`, then add:
 ```
 # Turn off the welcome message
 startup_message off
@@ -68,14 +66,12 @@ vbell off
 defscrollback 10000
 ```
 
-On the machine for kernel hacking, run
+Create or open `~/.bash_profile`, and add:
 ```
-screen
-```  
-Other machiens connected with ssh, run
+if [[ -z "$STY" ]]; then
+   screen -xRR default
+fi
 ```
-screen -x
-```  
 </details>
 <details close>    
 <summary>vim</summary>
