@@ -54,6 +54,20 @@ sudo mount /path/to/mount/folder
 <details close>    
 <summary>screen (good to have)</summary>
 
+Create a setting file:
+`vim ~/.screenrc`
+then add:
+```
+# Turn off the welcome message
+startup_message off
+
+# Disable visual bell
+vbell off
+
+# Set scrollback buffer to 10000
+defscrollback 10000
+```
+
 On the machine for kernel hacking, run
 ```
 screen
